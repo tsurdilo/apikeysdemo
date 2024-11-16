@@ -17,8 +17,6 @@ public class StartExecOnContextRefreshEvent {
 
     @EventListener
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        System.out.println("********** STARTING EXEC!!");
-
         MyWorkflow workflow = workflowClient.newWorkflowStub(MyWorkflow.class,
                 WorkflowOptions.newBuilder()
                         .setWorkflowId("my-workflow")
