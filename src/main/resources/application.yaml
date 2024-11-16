@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: apikeysdemo
+
+  temporal:
+    namespace: tihomirapikeys.a2dd6
+    connection:
+      target: us-east-1.aws.api.temporal.io:7233
+      enable-https: true
+    workers-auto-discovery:
+      packages:
+        - com.example.apikeysdemo.workflows
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
