@@ -1,11 +1,10 @@
 spring:
   application:
     name: apikeysdemo
-
   temporal:
-    namespace: tihomirapikeys.a2dd6
+    namespace: ${tmprl.cloud.namespace}
     connection:
-      target: us-east-1.aws.api.temporal.io:7233
+      target: ${tmprl.cloud.target}
       enable-https: true
     workers-auto-discovery:
       packages:
@@ -15,3 +14,8 @@ management:
     web:
       exposure:
         include: prometheus
+tmprl:
+  cloud:
+    key: <your_api_key>
+    target: <your_target>
+    namespace: <your_namespace>

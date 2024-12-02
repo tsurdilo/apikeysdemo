@@ -6,6 +6,12 @@ import io.temporal.authorization.AuthorizationGrpcMetadataProvider;
 import io.temporal.serviceclient.SimpleSslContextBuilder;
 import io.temporal.serviceclient.WorkflowServiceStubsOptions;
 import io.temporal.spring.boot.TemporalOptionsCustomizer;
+import io.temporal.spring.boot.autoconfigure.template.ClientTemplate;
+import io.temporal.spring.boot.autoconfigure.template.NamespaceTemplate;
+import io.temporal.spring.boot.autoconfigure.template.WorkersTemplate;
+import io.temporal.spring.boot.autoconfigure.template.WorkflowClientOptionsTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,6 +20,16 @@ import javax.net.ssl.SSLException;
 
 @Configuration
 public class TemporalOptionsConfig {
+
+    @Value("${tmprl.cloud.key}")
+    private String apiKey;
+
+    @Value("${tmprl.cloud.target}")
+    private String target;
+
+    @Value("${tmprl.cloud.namespace}")
+    private String namespace;
+
     @Bean
     public TemporalOptionsCustomizer<WorkflowServiceStubsOptions.Builder>
     customServiceStubsOptions() {
@@ -26,18 +42,17 @@ public class TemporalOptionsConfig {
                     Metadata.Key<String> TEMPORAL_NAMESPACE_HEADER_KEY =
                             Metadata.Key.of("temporal-namespace", Metadata.ASCII_STRING_MARSHALLER);
                     Metadata metadata = new Metadata();
-                    metadata.put(TEMPORAL_NAMESPACE_HEADER_KEY, "tihomirapikeys.a2dd6");
+                    metadata.put(TEMPORAL_NAMESPACE_HEADER_KEY, namespace);
 
                     optionsBuilder.setChannelInitializer(
                                     (channel) -> {
                                         channel.intercept(MetadataUtils.newAttachHeadersInterceptor(metadata));
                                     })
                             .addGrpcMetadataProvider(
-                                    new AuthorizationGrpcMetadataProvider(() -> "Bearer " + "<API_KEY>"))
-                            .setTarget("us-east-1.aws.api.temporal.io:7233");
+                                    new AuthorizationGrpcMetadataProvider(() -> "Bearer " + apiKey))
+                            .setTarget(target);
                     optionsBuilder.setSslContext(SimpleSslContextBuilder.noKeyOrCertChain().setUseInsecureTrustManager(false).build());
                 } catch (SSLException e) {
-                    System.out.println("*************** ERROR IN CUSTOMIZATION : " + e.getMessage());
                     return null;
                 }
                 return optionsBuilder;
