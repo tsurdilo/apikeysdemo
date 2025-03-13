@@ -6,11 +6,6 @@ import io.temporal.authorization.AuthorizationGrpcMetadataProvider;
 import io.temporal.serviceclient.SimpleSslContextBuilder;
 import io.temporal.serviceclient.WorkflowServiceStubsOptions;
 import io.temporal.spring.boot.TemporalOptionsCustomizer;
-import io.temporal.spring.boot.autoconfigure.template.ClientTemplate;
-import io.temporal.spring.boot.autoconfigure.template.NamespaceTemplate;
-import io.temporal.spring.boot.autoconfigure.template.WorkersTemplate;
-import io.temporal.spring.boot.autoconfigure.template.WorkflowClientOptionsTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,23 +33,6 @@ public class TemporalOptionsConfig {
             @Override
             public WorkflowServiceStubsOptions.Builder customize(
                     @Nonnull WorkflowServiceStubsOptions.Builder optionsBuilder) {
-                try {
-                    Metadata.Key<String> TEMPORAL_NAMESPACE_HEADER_KEY =
-                            Metadata.Key.of("temporal-namespace", Metadata.ASCII_STRING_MARSHALLER);
-                    Metadata metadata = new Metadata();
-                    metadata.put(TEMPORAL_NAMESPACE_HEADER_KEY, namespace);
-
-                    optionsBuilder.setChannelInitializer(
-                                    (channel) -> {
-                                        channel.intercept(MetadataUtils.newAttachHeadersInterceptor(metadata));
-                                    })
-                            .addGrpcMetadataProvider(
-                                    new AuthorizationGrpcMetadataProvider(() -> "Bearer " + apiKey))
-                            .setTarget(target);
-                    optionsBuilder.setSslContext(SimpleSslContextBuilder.noKeyOrCertChain().setUseInsecureTrustManager(false).build());
-                } catch (SSLException e) {
-                    return null;
-                }
                 return optionsBuilder;
             }
         };

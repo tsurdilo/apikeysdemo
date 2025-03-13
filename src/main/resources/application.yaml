@@ -5,6 +5,7 @@ spring:
     namespace: ${tmprl.cloud.namespace}
     connection:
       target: ${tmprl.cloud.target}
+      api-key: ${tmprl.cloud.key}
       enable-https: true
     workers-auto-discovery:
       packages:
@@ -16,6 +17,6 @@ management:
         include: prometheus
 tmprl:
   cloud:
-    key: <your_api_key>
+    key: <your_key>
     target: <your_target>
     namespace: <your_namespace>
