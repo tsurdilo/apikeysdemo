@@ -1,22 +1,42 @@
 spring:
+#  autoconfigure:
+#    exclude:
+#      - io.temporal.spring.boot.autoconfigure.MetricsScopeAutoConfiguration
+#      - io.temporal.spring.boot.autoconfigure.NonRootNamespaceAutoConfiguration
+#      - io.temporal.spring.boot.autoconfigure.OpenTracingAutoConfiguration
+#      - io.temporal.spring.boot.autoconfigure.RootNamespaceAutoConfiguration
+#      - io.temporal.spring.boot.autoconfigure.ServiceStubsAutoConfiguration
+#      - io.temporal.spring.boot.autoconfigure.TestServerAutoConfiguration
   application:
     name: apikeysdemo
   temporal:
     namespace: ${tmprl.cloud.namespace}
     connection:
       target: ${tmprl.cloud.target}
-      api-key: ${tmprl.cloud.key}
+      apiKey: ${tmprl.cloud.key}
       enable-https: true
     workers-auto-discovery:
       packages:
         - com.example.apikeysdemo.workflows
+    namespaces:
+      - namespace: ${tmprl.cloud.namespace2}
+        alias: second
+        connection:
+          target: ${tmprl.cloud.target}
+          apiKey: ${tmprl.cloud.key}
+          enable-https: true
+        workers-auto-discovery:
+          packages:
+            - com.example.apikeysdemo.workflows2
 management:
   endpoints:
     web:
       exposure:
         include: prometheus
 tmprl:
+  enabled: true
   cloud:
-    key: <your_key>
+    key: <your_api_key>
     target: <your_target>
     namespace: <your_namespace>
+    namespace2: <your_second_namespace>
