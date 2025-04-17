@@ -14,7 +14,6 @@ spring:
     connection:
       target: ${tmprl.cloud.target}
       apiKey: ${tmprl.cloud.key}
-      enable-https: true
     workers-auto-discovery:
       packages:
         - com.example.apikeysdemo.workflows
@@ -24,7 +23,6 @@ spring:
         connection:
           target: ${tmprl.cloud.target}
           apiKey: ${tmprl.cloud.key}
-          enable-https: true
         workers-auto-discovery:
           packages:
             - com.example.apikeysdemo.workflows2
@@ -36,7 +34,7 @@ management:
 tmprl:
   enabled: true
   cloud:
-    key: <your_api_key>
-    target: <your_target>
-    namespace: <your_namespace>
-    namespace2: <your_second_namespace>
+    key: eyJhbGciOiJFUzI1NiIsICJraWQiOiJXdnR3YUEifQ.eyJhY2NvdW50X2lkIjoiYTJkZDYiLCAiYXVkIjpbInRlbXBvcmFsLmlvIl0sICJleHAiOjE4MDc5MzE5MzcsICJpc3MiOiJ0ZW1wb3JhbC5pbyIsICJqdGkiOiJmZjI0V0FnN3ExVmRmOHpRVEdZekRCbmx6OTdXM1l6ZSIsICJrZXlfaWQiOiJmZjI0V0FnN3ExVmRmOHpRVEdZekRCbmx6OTdXM1l6ZSIsICJzdWIiOiI0YTA2MWE0MjU2ZGE0NzY5YmY2ZTU1ZTVhY2Q1Mzc5ZSJ9.0nXT3KI1xgfQ1GYjTp-fBGWPgK7JaoCCe2WxgJrxkch1wFzi25v2BebT7hnunlMiqA8k1makMYjIr7lXKe5k6g
+    target: us-east-1.aws.api.temporal.io:7233
+    namespace: tihomirapikeys.a2dd6
+    namespace2: tihomirapikeystwo.a2dd6
